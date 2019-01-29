@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiService } from '../api-service.service';
 
 @Component({
   selector: 'app-tab2',
