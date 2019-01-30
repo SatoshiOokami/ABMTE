@@ -17,7 +17,9 @@ export class Tab2Page {
   /**
    * testFunc
    */
-  public testFunc(id) {
+  public testFunc(selector, queryString, id) {
+    console.log(selector);
+    console.log(queryString);
     this.ApiService.getAnime(id).subscribe(
       (response) => {
         this.anime = response;
