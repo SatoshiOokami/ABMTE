@@ -2,9 +2,9 @@
   <ion-toolbar side="left">
     <ion-title>
         <ion-list>
-            <ion-list-header>Category</ion-list-header>
+            <ion-list-header>Search</ion-list-header>
             <ion-item>
-              <ion-label>Searching for:</ion-label>
+              <ion-label>Category:</ion-label>
               <ion-select #category interface="action-sheet" value="anime" okText="Okay" cancelText="Dismiss">
                 <ion-select-option value="anime">Anime</ion-select-option>
                 <ion-select-option value="manga">Manga</ion-select-option>
@@ -19,8 +19,9 @@
 
 <ion-content>
     <ion-card-content>
-      <ion-input #queryString type="text" placeholder="Search..."></ion-input>
-      <ion-button expand="block" (click)="testFunc(category.value, queryString.value, 20785)">Search</ion-button>
+      <ion-input #queryString type="text" placeholder="Search..." minlength="3"></ion-input>
+      <ion-button expand="block" (click)="search(category.value, queryString.value)">Search</ion-button>
+      <!-- <ion-button expand="block" (click)="testFunc(category.value, queryString.value, 20785)">Search</ion-button> -->
     </ion-card-content>
   <ion-card-content>
     {{ anime?.title_japanese }}

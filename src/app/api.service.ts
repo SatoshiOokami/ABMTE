@@ -5,7 +5,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { Anime } from './anime';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json'})
 };
 const apiUrl = "https://api.jikan.moe/v3";
 
@@ -24,11 +24,19 @@ export class ApiService {
     };
   }
 
+  public search(selector, queryString): Observable<Anime> {
+    const url = `${apiUrl}/search/${selector}/?q=${queryString}&page=1`;
+    return this.http.get<Anime>(url).pipe(
+      tap(_ => console.log(`fetched search q=${queryString}`)),
+      catchError(this.handleError<Anime>(`search id=${queryString}`))
+    );
+  }
+
   public getAnime(id): Observable<Anime> {
     const url = `${apiUrl}/anime/${id}`;
     return this.http.get<Anime>(url).pipe(
-      tap(_ => console.log(`fetched product id=${id}`)),
-      catchError(this.handleError<Anime>(`getProduct id=${id}`))
+      tap(_ => console.log(`fetched anime id=${id}`)),
+      catchError(this.handleError<Anime>(`getAnime id=${id}`))
     );
   }
 }
