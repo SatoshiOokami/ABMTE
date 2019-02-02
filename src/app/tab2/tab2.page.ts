@@ -19,7 +19,7 @@ export class Tab2Page {
   constructor(private ApiService: ApiService, private alertCtrl: AlertController, private navCtrl: NavController){}
 
   public passSelectedValue(category, id) {
-    //this.navCtrl.navigateForward('tabs/tab3?type=' + category + '&id=' + id);
+    this.navCtrl.navigateForward('tabs/tab3?type=' + category + '&id=' + id);
   }
   /**
    * search

@@ -33,11 +33,11 @@ export class ApiService {
     );
   }
 
-  public getAnime(id): Observable<Anime> {
-    const url = `${apiUrl}/anime/${id}`;
+  public getMALObject(type, id): Observable<Anime> {
+    const url = `${apiUrl}/${type}/${id}`;
     return this.http.get<Anime>(url).pipe(
-      tap(_ => console.log(`fetched anime id=${id}`)),
-      catchError(this.handleError<Anime>(`getAnime id=${id}`))
+      tap(_ => console.log(`fetched ${type} id=${id}`)),
+      catchError(this.handleError<Anime>(`getMALObject id=${id}`))
     );
   }
 }

@@ -18,33 +18,14 @@ export class Tab3Page {
   constructor(private plat: Platform, public ApiService: ApiService) {
     this.id = parseInt(this.plat.getQueryParam("id"));
     this.category = this.plat.getQueryParam("type");
-
-    switch (this.category) {
-      case "anime":
-        this.getAnime(this.id);
-        break;
-
-      case "manga":
-        this.getAnime(this.id);
-        break;
-
-      case "character":
-        this.getAnime(this.id);
-        break;
-
-      case "person":
-        this.getAnime(this.id);
-        break;
-      default:
-        break;
-    }
+    this.getField(this.category, this.id);
   }
   
   /**
-   * getAnime
+   * getField
    */
-  public getAnime(id) {
-    this.ApiService.getAnime(id).subscribe(
+  public getField(type, id) {
+    this.ApiService.getMALObject(type, id).subscribe(
       (response) => {
         this.anime = response;
         console.log(this.anime);
