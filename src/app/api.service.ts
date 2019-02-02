@@ -26,7 +26,7 @@ export class ApiService {
   }
 
   public search(selector, queryString): Observable<Search> {
-    const url = `${apiUrl}/search/${selector}/?q=${queryString}&page=1`;
+    const url = `${apiUrl}/search/${selector}/?q=${queryString}&page=1&limit=50`;
     return this.http.get<Search>(url).pipe(
       tap(_ => console.log(`fetched search q=${queryString}`)),
       catchError(this.handleError<Search>(`search id=${queryString}`))

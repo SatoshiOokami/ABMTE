@@ -5,7 +5,7 @@
             <ion-list-header>Search</ion-list-header>
             <ion-item>
               <ion-label>Category:</ion-label>
-              <ion-select #category interface="action-sheet" value="anime" okText="Okay" cancelText="Dismiss">
+              <ion-select #category interface="action-sheet" value="anime" okText="Okay" cancelText="Dismiss" (ionChange)="contentVisible = false;">
                 <ion-select-option value="anime">Anime</ion-select-option>
                 <ion-select-option value="manga">Manga</ion-select-option>
                 <ion-select-option value="character">Character</ion-select-option>
@@ -23,12 +23,17 @@
       <ion-button expand="block" (click)="search(category.value, queryString.value)">Search</ion-button>
     </ion-card-content>
   <ion-card-content>
-    <ion-list>
+    <ion-list *ngIf="contentVisible">
         <ion-item *ngFor="let result of searchResults?.results" (click)="passSelectedValue(category.value, result.mal_id)">
           <ion-thumbnail>
             <img src="{{result?.image_url}}">
           </ion-thumbnail>
-            <ion-card-content>{{category.value == "anime" || category.value == "manga" ? result?.title : result?.name}}</ion-card-content>
+            <ion-card-content>
+              {{category.value == "anime" || category.value == "manga" ? result?.title : result?.name}} <br>
+              ({{category.value == "anime" || category.value == "manga" ? result?.score : 
+              category.value == "person" ? result?.alternative_names[0] : 
+              result?.anime?.length > 0 ? result?.anime[0].name : result?.manga[0].name}})
+            </ion-card-content>
         </ion-item>
       </ion-list>
   </ion-card-content>

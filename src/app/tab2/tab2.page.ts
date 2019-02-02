@@ -14,6 +14,7 @@ import { Search } from '../search';
 export class Tab2Page {
   private searchResults: Search;
   private anime: Anime;
+  private contentVisible: boolean;
 
   constructor(private ApiService: ApiService, private alertCtrl: AlertController, private navCtrl: NavController){}
 
@@ -31,6 +32,7 @@ export class Tab2Page {
     }
     this.ApiService.search(selector, queryString).subscribe(
       (response) => {
+        this.contentVisible = true;
         this.searchResults = response;
         //console.log(this.searchResults);
         this.anime = this.searchResults.results[0];
