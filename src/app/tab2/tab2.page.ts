@@ -1,20 +1,25 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Anime } from '../anime';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController, NavParams } from '@ionic/angular';
+import { Search } from '../search';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  providers: [ApiService, AlertController]
+  providers: [ApiService, AlertController, NavController]
 })
 
 export class Tab2Page {
-  public anime: Anime;
+  private searchResults: Search;
+  private anime: Anime;
 
-  constructor(public ApiService: ApiService, public alertCtrl: AlertController){}
+  constructor(private ApiService: ApiService, private alertCtrl: AlertController, private navCtrl: NavController){}
 
+  public passSelectedValue(category, id) {
+    //this.navCtrl.navigateForward('tabs/tab3?type=' + category + '&id=' + id);
+  }
   /**
    * search
    */
@@ -26,25 +31,17 @@ export class Tab2Page {
     }
     this.ApiService.search(selector, queryString).subscribe(
       (response) => {
-        this.anime = response;
-        console.log(this.anime);
-      }
-    );
-  }
-  /**
-   * testFunc
-   */
-  public testFunc(selector, queryString, id) {
-    console.log(selector);
-    console.log(queryString);
-    this.ApiService.getAnime(id).subscribe(
-      (response) => {
-        this.anime = response;
+        this.searchResults = response;
+        //console.log(this.searchResults);
+        this.anime = this.searchResults.results[0];
         console.log(this.anime);
       }
     );
   }
   
+  /**
+  * createErrorAlert
+  */
   private async createErrorAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Error',

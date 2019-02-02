@@ -3,6 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Anime } from './anime';
+import { Search } from './search';
 
 const httpOptions = {
   headers: new HttpHeaders({'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json'})
@@ -24,11 +25,11 @@ export class ApiService {
     };
   }
 
-  public search(selector, queryString): Observable<Anime> {
+  public search(selector, queryString): Observable<Search> {
     const url = `${apiUrl}/search/${selector}/?q=${queryString}&page=1`;
-    return this.http.get<Anime>(url).pipe(
+    return this.http.get<Search>(url).pipe(
       tap(_ => console.log(`fetched search q=${queryString}`)),
-      catchError(this.handleError<Anime>(`search id=${queryString}`))
+      catchError(this.handleError<Search>(`search id=${queryString}`))
     );
   }
 

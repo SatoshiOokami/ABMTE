@@ -21,9 +21,15 @@
     <ion-card-content>
       <ion-input #queryString type="text" placeholder="Search..." minlength="3"></ion-input>
       <ion-button expand="block" (click)="search(category.value, queryString.value)">Search</ion-button>
-      <!-- <ion-button expand="block" (click)="testFunc(category.value, queryString.value, 20785)">Search</ion-button> -->
     </ion-card-content>
   <ion-card-content>
-    {{ anime?.title_japanese }}
+    <ion-list>
+        <ion-item *ngFor="let result of searchResults?.results" (click)="passSelectedValue(category.value, result.mal_id)">
+          <ion-thumbnail>
+            <img src="{{result?.image_url}}">
+          </ion-thumbnail>
+            <ion-card-content>{{category.value == "anime" || category.value == "manga" ? result?.title : result?.name}}</ion-card-content>
+        </ion-item>
+      </ion-list>
   </ion-card-content>
 </ion-content>
