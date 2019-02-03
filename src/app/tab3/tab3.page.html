@@ -49,13 +49,13 @@
             <ion-row>
               <ion-col size="2"><img src="{{character?.image_url}}"></ion-col>
               <ion-col>
-                <a (click)="redirectToNewPage('character',character?.mal_id)">{{character?.name}}</a><br>
+                <a (click)="redirectToNewPage('character', character?.mal_id)">{{character?.name}}</a><br>
                 ({{character?.role}})
               </ion-col>
               <ion-col>&nbsp;</ion-col>
               <ion-col size="2"><img src="{{character?.voice_actors[0]?.image_url}}"></ion-col>
               <ion-col>
-              <a (click)="redirectToNewPage('person',character?.voice_actors[0]?.mal_id)">{{character?.voice_actors[0]?.name}}</a>
+              <a (click)="redirectToNewPage('person', character?.voice_actors[0]?.mal_id)">{{character?.voice_actors[0]?.name}}</a>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -94,7 +94,7 @@
                 <ion-row>
                   <ion-col size="2"><img src="{{character?.image_url}}"></ion-col>
                   <ion-col>
-                    <a (click)="redirectToNewPage('character',character?.mal_id)">{{character?.name}}</a><br>
+                    <a (click)="redirectToNewPage('character', character?.mal_id)">{{character?.name}}</a><br>
                     ({{character?.role}})
                   </ion-col>
                 </ion-row>
@@ -105,10 +105,143 @@
   </ion-card-content>
     
   <ion-card-content *ngIf = "category == 'character'">
-    {{profile?.title}}
+    <ion-grid *ngIf = "!showLoading">
+      <ion-row>
+        <ion-col size="6">
+            <img src="{{profile?.image_url}}">
+        </ion-col>
+        <ion-col>
+          <b>Name: </b>{{profile?.name}}<br>
+          <b>Name (JP): </b>{{profile?.name_kanji}}<br>
+          <b>Alt. Names: </b><span *ngFor="let nick of profile?.nicknames; let idx = index">{{nick}}<span *ngIf="idx < profile?.nicknames.length - 1">, </span> </span><br>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <b>About</b><br>
+        {{profile?.about}}
+      </ion-row>
+      <ion-row *ngIf="profile?.animeography.length > 0">
+        <b>Animeography</b><br>
+        <ion-card-content *ngFor="let anime of profile?.animeography">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="2"><img src="{{anime?.image_url}}"></ion-col>
+                <ion-col>
+                  <a (click)="redirectToNewPage('anime', anime?.mal_id)">{{anime?.name}}</a><br>
+                  ({{anime?.role}})
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+      </ion-row>
+      <ion-row *ngIf="profile?.mangaography.length > 0">
+        <b>Mangaography</b><br>
+        <ion-card-content *ngFor="let manga of profile?.mangaography">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="2"><img src="{{manga?.image_url}}"></ion-col>
+                <ion-col>
+                  <a (click)="redirectToNewPage('manga', manga?.mal_id)">{{manga?.name}}</a><br>
+                  ({{manga?.role}})
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+      </ion-row>
+      <ion-row *ngIf="profile?.voice_actors.length > 0">
+        <b>Voice Actors</b>
+      </ion-row>
+      <ion-row *ngIf="profile?.voice_actors.length > 0">
+        <ion-card-content *ngFor="let seiyuu of profile?.voice_actors">
+            <ion-grid>
+              <ion-row align-items-start>
+                <ion-col align-self-start>
+                  <img src="{{seiyuu?.image_url}}">
+                </ion-col>
+                <ion-col>
+                  <a (click)="redirectToNewPage('person', seiyuu?.mal_id)">{{seiyuu?.name}}</a><br>
+                  ({{seiyuu?.language}})
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
     
   <ion-card-content *ngIf = "category == 'person'">
-    {{profile?.title}}
+      <ion-grid *ngIf = "!showLoading">
+          <ion-row>
+            <ion-col size="6">
+                <img src="{{profile?.image_url}}">
+            </ion-col>
+            <ion-col>
+              <b>Name: </b>{{profile?.name}}<br>
+              <b>Family Name: </b>{{profile?.family_name}}<br>
+              <b>Given Name: </b>{{profile?.given_name}}<br>
+              <b>Alt. Names: </b><span *ngFor="let nick of profile?.alternate_names; let idx = index">{{nick}}<span *ngIf="idx < profile?.alternate_names.length - 1">, </span> </span><br>
+              <b>Birthday: </b> {{profile?.birthday | date: 'dd.MM.yyyy'}}<br>
+              <b>Website: </b> <a href="{{profile?.website_url}}">{{profile?.website_url}}</a><br>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <b>About</b>
+          </ion-row>
+          <ion-row>
+            <ion-card-content *ngFor="let line of profile?.about.split('\n');">
+              {{line | slice:0:-3}}
+            </ion-card-content>
+          </ion-row>
+          <ion-row *ngIf="profile?.voice_acting_roles.length > 0">
+            <b>Voice Acting Roles</b><br>
+            <ion-card-content *ngFor="let role of profile?.voice_acting_roles">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="2"><img src="{{role?.anime.image_url}}"></ion-col>
+                    <ion-col>
+                      <a (click)="redirectToNewPage('anime', role?.anime.mal_id)">{{role?.anime.name}}</a>
+                    </ion-col>
+                    <ion-col size="2"><img src="{{role?.character.image_url}}"></ion-col>
+                    <ion-col>
+                      <a (click)="redirectToNewPage('character', role?.character.mal_id)">{{role?.character.name}}</a><br>
+                      ({{role?.role}})
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+          </ion-row>
+          <ion-row *ngIf="profile?.anime_staff_positions.length > 0">
+              <b>Anime Staff Position</b><br>
+              <ion-card-content *ngFor="let anime of profile?.anime_staff_positions">
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="2">
+                        <img src="{{anime?.anime.image_url}}">
+                      </ion-col>
+                      <ion-col>
+                        <a (click)="redirectToNewPage('anime', anime?.anime.mal_id)">{{anime?.anime.name}}</a><br>
+                        ({{anime?.position}})
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-card-content>
+            </ion-row>
+          <ion-row *ngIf="profile?.published_manga.length > 0">
+            <b>Published Manga</b>
+          </ion-row>
+          <ion-row *ngIf="profile?.published_manga.length > 0">
+            <ion-card-content *ngFor="let manga of profile?.published_manga">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="2"><img src="{{manga?.manga.image_url}}"></ion-col>
+                    <ion-col>
+                      <a (click)="redirectToNewPage('manga', manga?.manga.mal_id)">{{manga?.manga.name}}</a><br>
+                      ({{manga?.position}})
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+          </ion-row>
+        </ion-grid>
   </ion-card-content>
 </ion-content>

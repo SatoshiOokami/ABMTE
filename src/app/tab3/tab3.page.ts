@@ -31,6 +31,7 @@ export class Tab3Page {
     this.id = parseInt(this.plat.getQueryParam("id"));
     this.category = this.plat.getQueryParam("type");
     this.additionalInfo = "characters";
+    this.isFavorite = false;
 
     if(this.id != NaN && this.category != null) {
       this.showLoading = true;
@@ -46,8 +47,6 @@ export class Tab3Page {
               this.isFavorite = true;
               return true;
             }
-            else
-              this.isFavorite = false;
           });
       });
 
