@@ -3,6 +3,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { ApiService } from '../api.service';
 import { Anime } from '../anime';
 import { Storage, IonicStorageModule } from '@ionic/storage';
+import { FavoriteItem } from '../favorite';
 
 @Component({
   selector: 'app-tab3',
@@ -17,7 +18,8 @@ export class Tab3Page {
   private addOns: Anime;
   private showLoading: boolean;
   private additionalInfo: string;
-  private favoriteItems: Array<any>;
+  private favoriteItems: Array<FavoriteItem>;
+  private isFavorite: boolean;
 
 
   constructor(private plat: Platform, public ApiService: ApiService, private navCtrl: NavController, private storage: Storage) {}
@@ -32,6 +34,23 @@ export class Tab3Page {
 
     if(this.id != NaN && this.category != null) {
       this.showLoading = true;
+
+      this.storage.get("favoriteItems").then((data)=> {
+        if(data == null) 
+          this.favoriteItems = new Array;
+        else
+          this.favoriteItems = data;
+
+          this.favoriteItems.filter((item) => {
+            if((item.category == this.category && item.id == this.id)) {
+              this.isFavorite = true;
+              return true;
+            }
+            else
+              this.isFavorite = false;
+          });
+      });
+
       this.getField(this.category, this.id);
       
       if(this.category == "anime") {
@@ -91,22 +110,33 @@ export class Tab3Page {
    * adds profile to favorites
    */
   public favorite() {
-    this.storage.get("favoriteItems").then((data)=> {
-      if(data == null)
-        this.favoriteItems = new Array;
-      else
-        this.favoriteItems = data;
-
-        var favoriteItem = {
-          id: this.id,
-          category: this.category,
-          image: this.profile.image_url,
-          name: this.profile.title != null ? this.profile.title : this.profile.name
-        }
-        this.favoriteItems.push(favoriteItem);
-        
-        this.storage.set("favoriteItems", this.favoriteItems);
-    });
+    if(this.isFavorite)
+      this.unfavor();
     
+    else { 
+      var favoriteItem = {
+        id: this.id,
+        category: this.category,
+        image: this.profile.image_url,
+        name: this.profile.title != null ? this.profile.title : this.profile.name
+      }
+
+      this.favoriteItems.push(favoriteItem);
+      this.storage.set("favoriteItems", this.favoriteItems);
+      this.isFavorite = true;
+    }
+  }
+
+  /**
+   * removes profile from favorites
+   */
+  public unfavor() {
+    var filteredItems = this.favoriteItems.filter((item) => {
+      return !(item.category == this.category && item.id == this.id)
+    });
+
+    this.favoriteItems = filteredItems;
+    this.storage.set("favoriteItems", this.favoriteItems);
+    this.isFavorite = false;
   }
 }

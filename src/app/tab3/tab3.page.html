@@ -5,7 +5,8 @@
     </ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="favorite()" icon-only>
-          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline" *ngIf="!isFavorite"></ion-icon>
+          <ion-icon name="star" *ngIf="isFavorite"></ion-icon>
         </ion-button>
       </ion-buttons>
   </ion-toolbar>
@@ -64,7 +65,43 @@
   </ion-card-content>
   
   <ion-card-content *ngIf = "category == 'manga'">
-    {{profile?.title}}
+      <ion-grid *ngIf = "!showLoading">
+          <ion-row>
+            <ion-col size="6" offset="3">
+                <img src="{{profile?.image_url}}">
+            </ion-col>
+            <ion-col>
+              <b>Title: </b>{{profile?.title}}<br>
+              <b>Title (JP): </b>{{profile?.title_japanese}}<br>
+              <b>Run: </b>{{profile?.published.string}}<br>
+              <b>Status: </b>{{profile?.status}}<br>
+              <b>Volumes: </b>{{profile?.volumes}}<br>
+              <b>Chapters: </b>{{profile?.chapters}}<br>
+              <b>Genres: </b><span *ngFor="let genre of profile?.genres; let idx = index">{{genre.name}}<span *ngIf="idx < profile?.genres.length - 1">, </span> </span><br>
+              <b>Serialization: </b><span *ngFor="let serialization of profile?.serializations; let idx = index">{{serialization.name}}<span *ngIf="idx < profile?.serializations.length - 1">, </span> </span><br>
+              <b>Score: </b>{{profile?.score}}<br>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <b>Synopsis</b><br>
+            {{profile?.synopsis}}
+          </ion-row>
+          <br>
+          <ion-row>
+            <b>Characters</b><br>
+            <ion-card-content *ngFor="let character of addOns?.characters">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="2"><img src="{{character?.image_url}}"></ion-col>
+                  <ion-col>
+                    <a (click)="redirectToNewPage('character',character?.mal_id)">{{character?.name}}</a><br>
+                    ({{character?.role}})
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-row>
+        </ion-grid>
   </ion-card-content>
     
   <ion-card-content *ngIf = "category == 'character'">
