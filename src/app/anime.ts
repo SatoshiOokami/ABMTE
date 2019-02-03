@@ -3,6 +3,7 @@ export class Anime {
     url: string;
     image_url: string;
     title: string;
+    name: string;
     title_english: string;
     title_japanese: string;
     type: string;

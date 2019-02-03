@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { ApiService } from '../api.service';
 import { Anime } from '../anime';
-import { Storage } from '@ionic/storage';
+import { Storage, IonicStorageModule } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  providers: [NavController, Platform, ApiService, NavController]
+  providers: [NavController, Platform, ApiService, IonicStorageModule]
 })
 export class Tab3Page {
   private id: number;
@@ -17,6 +17,7 @@ export class Tab3Page {
   private addOns: Anime;
   private showLoading: boolean;
   private additionalInfo: string;
+  private favoriteItems: Array<any>;
 
 
   constructor(private plat: Platform, public ApiService: ApiService, private navCtrl: NavController, private storage: Storage) {}
@@ -90,6 +91,22 @@ export class Tab3Page {
    * adds profile to favorites
    */
   public favorite() {
+    this.storage.get("favoriteItems").then((data)=> {
+      if(data == null)
+        this.favoriteItems = new Array;
+      else
+        this.favoriteItems = data;
+
+        var favoriteItem = {
+          id: this.id,
+          category: this.category,
+          image: this.profile.image_url,
+          name: this.profile.title != null ? this.profile.title : this.profile.name
+        }
+        this.favoriteItems.push(favoriteItem);
+        
+        this.storage.set("favoriteItems", this.favoriteItems);
+    });
     
   }
 }

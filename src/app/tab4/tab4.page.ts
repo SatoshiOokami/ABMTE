@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Storage, IonicStorageModule } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab4',
   templateUrl: './tab4.page.html',
   styleUrls: ['./tab4.page.scss'],
+  providers: [IonicStorageModule]
 })
-export class Tab4Page implements OnInit {
+export class Tab4Page {
 
-  constructor() { }
+  constructor(private storage: Storage) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
+    this.storage.get("favoriteItems").then((data)=> {
+      console.log(data);
+    });
   }
-
 }
