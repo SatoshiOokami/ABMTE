@@ -7,5 +7,51 @@
 </ion-header>
 
 <ion-content>
-
+    <ion-card-content *ngIf="favoriteItems?.length > 0">
+      
+        <ion-list *ngIf="anime?.length > 0">
+            <ion-card-content><b>Anime</b></ion-card-content>
+            <ion-item *ngFor="let item of anime" (click)="passSelectedValue(item.category, item.id)">
+              <ion-thumbnail>
+                <img src="{{item?.image}}">
+              </ion-thumbnail>
+              <ion-card-content>
+                {{item?.name}}
+              </ion-card-content>
+            </ion-item>
+          </ion-list>
+          <ion-list *ngIf="manga?.length > 0">
+              <ion-card-content><b>Manga</b></ion-card-content>
+              <ion-item *ngFor="let item of manga" (click)="passSelectedValue(item.category, item.id)">
+                <ion-thumbnail>
+                  <img src="{{item?.image}}">
+                </ion-thumbnail>
+                <ion-card-content>
+                  {{item?.name}}
+                </ion-card-content>
+              </ion-item>
+            </ion-list>
+            <ion-list *ngIf="characters?.length > 0">
+                <ion-card-content><b>Characters</b></ion-card-content>
+                <ion-item *ngFor="let item of characters" (click)="passSelectedValue(item.category, item.id)">
+                  <ion-thumbnail>
+                    <img src="{{item?.image}}">
+                  </ion-thumbnail>
+                  <ion-card-content>
+                    {{item?.name}}
+                  </ion-card-content>
+                </ion-item>
+              </ion-list>
+              <ion-list *ngIf="persons?.length > 0">
+                  <ion-card-content><b>People</b></ion-card-content>
+                  <ion-item *ngFor="let item of persons" (click)="passSelectedValue(item.category, item.id)">
+                    <ion-thumbnail>
+                      <img src="{{item?.image}}">
+                    </ion-thumbnail>
+                    <ion-card-content>
+                      {{item?.name}}
+                    </ion-card-content>
+                  </ion-item>
+                </ion-list>
+      </ion-card-content>
 </ion-content>
