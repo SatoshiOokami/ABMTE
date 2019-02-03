@@ -1,8 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Profile
+      Profile 
     </ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="favorite()" icon-only>
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +17,50 @@
 
 <ion-content> 
   <ion-card-content *ngIf = "category == 'anime'">
-    {{profile?.title}}
+    <ion-grid *ngIf = "!showLoading">
+      <ion-row>
+        <ion-col size="6" offset="3">
+            <img src="{{profile?.image_url}}">
+        </ion-col>
+        <ion-col>
+          <b>Title: </b>{{profile?.title}}<br>
+          <b>Title (JP): </b>{{profile?.title_japanese}}<br>
+          <b>Cour: </b>{{profile?.premiered}}<br>
+          <b>Run: </b>{{profile?.aired.string}}<br>
+          <b>Status: </b>{{profile?.status}}<br>
+          <b>Type: </b>{{profile?.type}}<br>
+          <b>Episodes: </b>{{profile?.episodes}}<br>
+          <b>Genres: </b><span *ngFor="let genre of profile?.genres; let idx = index">{{genre.name}}<span *ngIf="idx < profile?.genres.length - 1">, </span> </span><br>
+          <b>Source: </b>{{profile?.source}}<br>
+          <b>Studios: </b><span *ngFor="let studio of profile?.studios; let idx = index">{{studio.name}}<span *ngIf="idx < profile?.studios.length - 1">, </span> </span><br>
+          <b>Score: </b>{{profile?.score}}<br>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <b>Synopsis</b><br>
+        {{profile?.synopsis}}
+      </ion-row>
+      <br>
+      <ion-row>
+        <b>Characters & Voice Actors</b><br>
+        <ion-card-content *ngFor="let character of addOns?.characters">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="2"><img src="{{character?.image_url}}"></ion-col>
+              <ion-col>
+                <a (click)="redirectToNewPage('character',character?.mal_id)">{{character?.name}}</a><br>
+                ({{character?.role}})
+              </ion-col>
+              <ion-col>&nbsp;</ion-col>
+              <ion-col size="2"><img src="{{character?.voice_actors[0]?.image_url}}"></ion-col>
+              <ion-col>
+              <a (click)="redirectToNewPage('person',character?.voice_actors[0]?.mal_id)">{{character?.voice_actors[0]?.name}}</a>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
   
   <ion-card-content *ngIf = "category == 'manga'">

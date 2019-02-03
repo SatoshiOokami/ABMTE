@@ -13,17 +13,24 @@ import { Search } from '../search';
 
 export class Tab2Page {
   private searchResults: Search;
-  private anime: Anime;
   private contentVisible: boolean;
   private showLoading: boolean;
 
   constructor(private ApiService: ApiService, private alertCtrl: AlertController, private navCtrl: NavController){}
 
+  /**
+   * redirects to a profile page
+   * @param category 
+   * @param id 
+   */
   public passSelectedValue(category, id) {
     this.navCtrl.navigateForward('tabs/tab3?type=' + category + '&id=' + id);
   }
+  
   /**
-   * search
+   * gets search results
+   * @param selector 
+   * @param queryString 
    */
   public search(selector, queryString) {
     if(queryString.length < 3)
@@ -37,15 +44,12 @@ export class Tab2Page {
         this.showLoading = false;
         this.contentVisible = true;
         this.searchResults = response;
-        //console.log(this.searchResults);
-        this.anime = this.searchResults.results[0];
-        console.log(this.anime);
       }
     );
   }
   
   /**
-  * createErrorAlert
+  * creates error alert
   */
   private async createErrorAlert() {
     const alert = await this.alertCtrl.create({

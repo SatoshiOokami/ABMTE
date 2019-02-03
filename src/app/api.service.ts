@@ -40,4 +40,12 @@ export class ApiService {
       catchError(this.handleError<Anime>(`getMALObject id=${id}`))
     );
   }
+
+  public getAdditionalInfoForMALObject(type, id, additionalInfo): Observable<Anime>{
+    const url = `${apiUrl}/${type}/${id}/${additionalInfo}`;
+    return this.http.get<Anime>(url).pipe(
+      tap(_ => console.log(`fetched ${type} id=${id} with additional info`)),
+      catchError(this.handleError<Anime>(`getMALObject id=${id}`))
+    );
+  }
 }
