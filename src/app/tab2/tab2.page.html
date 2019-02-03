@@ -23,17 +23,28 @@
       <ion-button expand="block" (click)="search(category.value, queryString.value)">Search</ion-button>
     </ion-card-content>
   <ion-card-content>
+    <ion-spinner name="bubbles" *ngIf="showLoading"></ion-spinner>
     <ion-list *ngIf="contentVisible">
         <ion-item *ngFor="let result of searchResults?.results" (click)="passSelectedValue(category.value, result.mal_id)">
           <ion-thumbnail>
             <img src="{{result?.image_url}}">
           </ion-thumbnail>
-            <ion-card-content>
-              {{category.value == "anime" || category.value == "manga" ? result?.title : result?.name}} <br>
-              ({{category.value == "anime" || category.value == "manga" ? result?.score : 
-              category.value == "person" ? result?.alternative_names[0] : 
-              result?.anime?.length > 0 ? result?.anime[0].name : result?.manga[0].name}})
-            </ion-card-content>
+          <ion-card-content *ngIf="category.value == 'anime'">
+            {{result?.title}}<br>
+            ({{result?.score}} | {{result?.type}} [{{result?.episodes}}])
+          </ion-card-content>
+          <ion-card-content *ngIf="category.value == 'manga'">
+            {{result?.title}}<br>
+            ({{result?.score}} [{{result?.volumes}}/{{result?.chapters}}])
+          </ion-card-content>
+          <ion-card-content *ngIf="category.value == 'character'">
+            {{result?.name}}<br>
+            ({{result?.anime?.length > 0 ? result?.anime[0].name : result?.manga[0].name}})
+          </ion-card-content>
+          <ion-card-content *ngIf="category.value == 'person'">
+            {{result?.name}}<br>
+            {{result?.alternative_names.length > 0 ? (result?.alternative_names[0]) : ''}}
+          </ion-card-content>
         </ion-item>
       </ion-list>
   </ion-card-content>

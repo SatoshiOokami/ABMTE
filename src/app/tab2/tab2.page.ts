@@ -15,6 +15,7 @@ export class Tab2Page {
   private searchResults: Search;
   private anime: Anime;
   private contentVisible: boolean;
+  private showLoading: boolean;
 
   constructor(private ApiService: ApiService, private alertCtrl: AlertController, private navCtrl: NavController){}
 
@@ -30,8 +31,10 @@ export class Tab2Page {
       this.createErrorAlert();
       return false;
     }
+    this.showLoading = true;
     this.ApiService.search(selector, queryString).subscribe(
       (response) => {
+        this.showLoading = false;
         this.contentVisible = true;
         this.searchResults = response;
         //console.log(this.searchResults);

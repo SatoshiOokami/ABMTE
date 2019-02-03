@@ -12,13 +12,20 @@ import { Anime } from '../anime';
 export class Tab3Page {
   private id: number;
   private category: string;
-  private anime: Anime;
+  private profile: Anime;
+  private showLoading: boolean;
 
 
-  constructor(private plat: Platform, public ApiService: ApiService) {
+  constructor(private plat: Platform, public ApiService: ApiService) {}
+
+  ionViewDidEnter() {
     this.id = parseInt(this.plat.getQueryParam("id"));
     this.category = this.plat.getQueryParam("type");
-    this.getField(this.category, this.id);
+
+    if(this.id != NaN && this.category != null) {
+      this.showLoading = true;
+      this.getField(this.category, this.id);
+    }
   }
   
   /**
@@ -27,8 +34,8 @@ export class Tab3Page {
   public getField(type, id) {
     this.ApiService.getMALObject(type, id).subscribe(
       (response) => {
-        this.anime = response;
-        console.log(this.anime);
+        this.showLoading = false;
+        this.profile = response;
       }
     );
   }

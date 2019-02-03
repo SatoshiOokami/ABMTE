@@ -6,8 +6,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card-content>
+<ion-content padding class="spinnerCenter" *ngIf="showLoading">
+    <ion-spinner name="bubbles"></ion-spinner>
+</ion-content>
+
+<ion-content> 
+  <ion-card-content *ngIf = "category == 'anime'">
+    {{profile?.title}}
+  </ion-card-content>
+  
+  <ion-card-content *ngIf = "category == 'manga'">
+    {{profile?.title}}
+  </ion-card-content>
+    
+  <ion-card-content *ngIf = "category == 'character'">
+    {{profile?.title}}
+  </ion-card-content>
+    
+  <ion-card-content *ngIf = "category == 'person'">
     {{profile?.title}}
   </ion-card-content>
 </ion-content>
