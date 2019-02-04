@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
 export class Tab4Page {
 
   constructor(private storage: Storage, private navCtrl: NavController) {}
-  private favoriteItems: Array<any>;
+  public favoriteItems: Array<any>;
   private anime: Array<any>;
   private manga: Array<any>;
   private characters: Array<any>;

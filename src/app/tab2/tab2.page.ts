@@ -12,8 +12,8 @@ import { Search } from '../search';
 
 export class Tab2Page {
   private searchResults: Search;
-  private contentVisible: boolean;
-  private showLoading: boolean;
+  public contentVisible: boolean;
+  public showLoading: boolean;
 
   constructor(private ApiService: ApiService, private alertCtrl: AlertController, private navCtrl: NavController){}
 

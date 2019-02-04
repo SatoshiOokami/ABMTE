@@ -13,13 +13,13 @@ import { FavoriteItem } from '../favorite';
 })
 export class Tab3Page {
   private id: number;
-  private category: string;
+  public category: string;
   private profile: Anime;
   private addOns: Anime;
-  private showLoading: boolean;
+  public showLoading: boolean;
   private additionalInfo: string;
   private favoriteItems: Array<FavoriteItem>;
-  private isFavorite: boolean;
+  public isFavorite: boolean;
 
 
   constructor(private plat: Platform, public ApiService: ApiService, private navCtrl: NavController, private storage: Storage) {}
