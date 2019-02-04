@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { ApiService } from '../api.service';
 import { AlertController, NavController, NavParams } from '@ionic/angular';
 import { Search } from '../search';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  providers: [ApiService, AlertController, NavController]
+  providers: [ApiService, AlertController, NavController, HTTP]
 })
 
 export class Tab2Page {
@@ -38,11 +39,11 @@ export class Tab2Page {
       return false;
     }
     this.showLoading = true;
-    this.ApiService.search(selector, queryString).subscribe(
-      (response) => {
+    this.ApiService.search(selector, queryString).then(
+      (data) => {
         this.showLoading = false;
         this.contentVisible = true;
-        this.searchResults = response;
+        this.searchResults = data;
       }
     );
   }

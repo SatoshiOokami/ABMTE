@@ -4,12 +4,13 @@ import { ApiService } from '../api.service';
 import { Anime } from '../anime';
 import { Storage, IonicStorageModule } from '@ionic/storage';
 import { FavoriteItem } from '../favorite';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  providers: [NavController, Platform, ApiService, IonicStorageModule]
+  providers: [NavController, Platform, ApiService, IonicStorageModule, HTTP]
 })
 export class Tab3Page {
   private id: number;
